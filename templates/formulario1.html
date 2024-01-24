@@ -1,0 +1,13 @@
+{%extends 'layout.html'%} 
+
+{%block content%}
+
+<form action="/resultado" method="POST">
+    <label>N1: </label>
+    <input type="text" name="n1"/><br>
+    <label>N2: </label>
+    <input type="text" name="n2"/><br>
+    <button type="subbmit">Calcular</button>
+</form>
+
+{%endblock%}
