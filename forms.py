@@ -16,7 +16,7 @@ class UserForm(Form):
         validators.length(min=4, max=10, message='Ingresa un apellido materno válido.')
     ])
     edad = IntegerField('edad', [
-        validators.number_range(min=1, max=20, message='Valor no válido.')
+        validators.number_range(min=1, max=10, message='Valor no válido.')
     ])
     correo = EmailField('correo', [
         validators.Email(message='Ingrese un correo válido.')

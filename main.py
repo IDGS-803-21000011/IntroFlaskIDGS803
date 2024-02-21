@@ -1,16 +1,39 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, Response, g, redirect
+from flask_wtf.csrf import CSRFProtect
 import forms
 
 app = Flask(__name__)
+app.secret_key = 'Esta es la clave secreta'
 
-@app.route("/")
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+# -----------------
+@app.before_request
+def before_request():
+    #g.nombre = "Daniel"
+    print("before_request")
+
+@app.after_request
+def after_request(response):
+    print("ultimo")
+    # if 'Daniel' not in g.nombre and request.endpoint not in ['/index']:
+    #     return redirect('index.html')
+    return response
+# -----------
+
+@app.route("/index")
 def index():
+    g.nombre = "Daniel"
     escuela = "UTL!!!"
     alumnos = ["Gael", "Pedro", "Alicia", "Ana"]
     return render_template("index.html", escuela = escuela, alumnos = alumnos)
 
 @app.route("/alumnos", methods=["GET", "POST"])
 def alumn():
+    print("Hola alumnos")
+    #print("Hola: {}".format(g.nombre))
     nom = ''
     apa = ''
     ama = ''
@@ -19,6 +42,8 @@ def alumn():
         nom = alum_form.nombre.data
         apa = alum_form.apaterno.data
         ama = alum_form.amaterno.data
+        mensaje = "Bienvenido {}".format(nom)
+        flash(mensaje)
         print("Nombre: {}".format(nom))
         print("apaterno: {}".format(apa))
         print("amaterno: {}".format(ama))
